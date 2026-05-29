@@ -102,6 +102,24 @@
       position: relative;
       z-index: 1;
     }
+
+    /* Registration closed styling */
+    .registration-btn-main.disabled-closed {
+      background-color: #6c757d !important;
+      border-color: #6c757d !important;
+      color: #fff !important;
+      cursor: not-allowed !important;
+      opacity: 0.65;
+      text-decoration: none !important;
+      box-shadow: none !important;
+    }
+
+    .registration-link-inline.disabled-closed {
+      color: #6c757d !important;
+      text-decoration: line-through !important;
+      cursor: not-allowed !important;
+      opacity: 0.7;
+    }
   </style>
 
 
@@ -143,7 +161,7 @@
             <div class="lead">
               <p><em>June 15, 2026 - Department of Mathematics</em><br>University of Bari Aldo Moro</p>
             </div>
-            <a href="https://forms.gle/7aP8m3o25EB1q1z99" target="_blank" class="btn btn-primary btn-m mt-3">Register
+            <a href="https://forms.gle/7aP8m3o25EB1q1z99" target="_blank" class="btn btn-primary btn-m mt-3 registration-btn-main">Register
               here</a>
           </div>
         </div>
@@ -819,7 +837,7 @@
                   to upload your abstract file (PDF format) during the registration process.
                 </p>
                 <p>
-                  To register, please fill out the <a href="https://forms.gle/7aP8m3o25EB1q1z99" target="_blank">Google
+                  To register, please fill out the <a href="https://forms.gle/7aP8m3o25EB1q1z99" target="_blank" class="registration-link-inline">Google
                     Form registration</a>.
                 </p>
               </section>
@@ -907,6 +925,76 @@
       anchors.options = { placement: "right" };
       anchors.add(headings);
     })();
+  </script>
+
+  <!-- Registration Closed Modal -->
+  <div class="modal fade" id="registrationClosedModal" tabindex="-1" aria-labelledby="registrationClosedModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15); overflow: hidden;">
+        <div class="modal-header" style="background: linear-gradient(135deg, #f8d7da 0%, #f5c2c7 100%); border-bottom: none; padding: 20px 24px;">
+          <h5 class="modal-title" id="registrationClosedModalLabel" style="color: #842029; font-weight: 700; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-exclamation-circle"></i> Registrazioni Chiuse / Registration Closed
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="padding: 30px 24px; text-align: center; color: #495057;">
+          <p style="font-size: 1.15rem; font-weight: 500; margin-bottom: 10px; color: #212529;">
+            Le registrazioni per il NUMERA Workshop 2026 sono chiuse.
+          </p>
+          <p style="font-size: 0.95rem; margin-bottom: 0;">
+            La scadenza per la registrazione era il <strong>31 Maggio 2026</strong>. Non è più possibile registrarsi all'evento.
+          </p>
+          <hr style="margin: 20px 0; opacity: 0.15;">
+          <p style="font-size: 1.15rem; font-weight: 500; margin-bottom: 10px; color: #212529;">
+            Registrations for the NUMERA Workshop 2026 are closed.
+          </p>
+          <p style="font-size: 0.95rem; margin-bottom: 0;">
+            The registration deadline was <strong>May 31, 2026</strong>. It is no longer possible to register for the event.
+          </p>
+        </div>
+        <div class="modal-footer" style="border-top: none; padding: 15px 24px; background-color: #f8f9fa;">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 6px; padding: 8px 20px; font-weight: 600;">Chiudi / Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Date Check script for closing registration starting June 1st, 2026 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Current date check (local time)
+      var today = new Date();
+      // June 1, 2026 (Month is 0-indexed: 5 is June)
+      var deadline = new Date(2026, 5, 1);
+      
+      if (today >= deadline) {
+        var mainBtn = document.querySelector('.registration-btn-main');
+        var inlineLink = document.querySelector('.registration-link-inline');
+        
+        if (mainBtn) {
+          mainBtn.classList.add('disabled-closed');
+          mainBtn.removeAttribute('target');
+          mainBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            showRegistrationClosedModal();
+          });
+        }
+        
+        if (inlineLink) {
+          inlineLink.classList.add('disabled-closed');
+          inlineLink.removeAttribute('target');
+          inlineLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            showRegistrationClosedModal();
+          });
+        }
+      }
+      
+      function showRegistrationClosedModal() {
+        var myModal = new bootstrap.Modal(document.getElementById('registrationClosedModal'));
+        myModal.show();
+      }
+    });
   </script>
 
 </body>
